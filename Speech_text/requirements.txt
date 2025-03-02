@@ -3,5 +3,5 @@ openai-whisper
 torchvision
 torchaudio
 ffmpeg-python
-torch==2.0.1
+torch
 numpy
