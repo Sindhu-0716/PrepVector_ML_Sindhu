@@ -2,6 +2,10 @@ import os
 import whisper # type: ignore
 import time
 import subprocess
+import torch # type: ignore
+
+# ✅ Ensure it runs on CPU (since Streamlit Cloud does not support GPU)
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
 # Manually set ffmpeg path (update this to match your installation)
 os.environ["PATH"] += os.pathsep + "C:\\Program Files\\ffmpeg\\bin"
