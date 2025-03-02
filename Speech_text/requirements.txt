@@ -4,3 +4,5 @@ torch
 torchvision
 torchaudio
 ffmpeg-python
+torch==2.0.1+cpu
+numpy
