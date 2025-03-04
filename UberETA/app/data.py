@@ -1,5 +1,5 @@
 # Import essential libraries
-import numpy as np
+import numpy as np # type: ignore
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -8,7 +8,7 @@ from sklearn.impute import KNNImputer #for imputing missing values
 from sklearn.model_selection import train_test_split
 
 # Load Data and check Data Types
-uber_data = pd.read_csv('C:/Users/TeZZa/UberETA/PrepVector_ML_sindhu_firstproject/uber_data.csv')
+uber_data = pd.read_csv('../data/uber_data.csv')
 print(uber_data.head())
 # Check data types
 print(uber_data.dtypes)
@@ -91,7 +91,7 @@ columns_to_drop = ['ID', 'Delivery_person_ID', 'Restaurant_latitude',
 # Drop columns from train_data
 uber_data.drop(columns=columns_to_drop, inplace=True)
 
-
+'''''
 # Perform exploratory data analysis (EDA)
 selected_col = ['City_type', 'Festival', 'Multiple_deliveries', 'Vehicle_condition', 'Weatherconditions',
                 'Type_of_order', 'Type_of_vehicle', 'Road_traffic_density', 'Delivery_person_Age']
@@ -140,7 +140,7 @@ for factor in categorical_factors:
     else:
         print(f"Column '{factor}' not found in dataset.")
 
-
+'''''
 # Split the data into train and test sets
 train_data, test_data = train_test_split(uber_data, test_size=0.2, random_state=42)
 # Display the split
@@ -220,8 +220,8 @@ calculate_time_diff(test_data)
 print("Training data shape:", train_data.shape)
 print("Testing data shape:", test_data.shape)
 # Save train and test datasets as separate CSV files
-train_data.to_csv('C:/Users/TeZZa/UberETA/PrepVector_ML_sindhu_firstproject/train.csv', index=False)
-test_data.to_csv('C:/Users/TeZZa/UberETA/PrepVector_ML_sindhu_firstproject/test.csv', index=False)
+train_data.to_csv('../data/train.csv', index=False)
+test_data.to_csv('../data/test.csv', index=False)
 
 # Define target variable
 target_column = 'Time_taken(min)'
