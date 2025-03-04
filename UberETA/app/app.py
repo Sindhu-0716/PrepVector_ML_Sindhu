@@ -15,7 +15,7 @@ image_path = "delivery_driver.jpg"
 
 # Load the trained best model
 with open(model_path, "rb") as model_file:
-    model = joblib.load(model_path)
+    model = joblib.load(model_file)
 
 # Load the label encoders
 with open(encoder_path, "rb") as encoders_file:
@@ -58,21 +58,21 @@ user_input = {}
 # Categorical inputs with dropdowns
 categorical_cols = ["City_type", "Festival", "Type_of_order", "Type_of_vehicle", "Road_traffic_density", "Weatherconditions"]
 options = {
-    "City_type": ["Select City Type", "Metropolitan", "Urban", "Semi-Urban"],
-    "Festival": ["Select Festival Status", "Yes", "No"],
-    "Type_of_order": ["Select Order Type", "Drinks", "Snack", "Meal", "Buffet"],
-    "Type_of_vehicle": ["Select Vehicle Type", "Bike", "Scooter", "Electric Bike", "Car"],
-    "Road_traffic_density": ["Select Traffic Density", "Low", "Medium", "High", "Jam"],
-    "Weatherconditions": ["Select Weather Condition", "Sunny", "Stormy", "Sandstorm", "Windy", "Cloudy", "Fog"]
+    "City_type": ["Metropolitan", "Urban", "Semi-Urban"],
+    "Festival": ["Yes", "No"],
+    "Type_of_order": ["Drinks", "Snack", "Meal", "Buffet"],
+    "Type_of_vehicle": ["Bike", "Scooter", "Electric Bike", "Car"],
+    "Road_traffic_density": ["Low", "Medium", "High", "Jam"],
+    "Weatherconditions": ["Sunny", "Stormy", "Sandstorm", "Windy", "Cloudy", "Fog"]
 }
 
 with col1:
     for col in categorical_cols[:3]:
-        user_input[col] = st.selectbox(f"{col}", options[col], index=0)
+        user_input[col] = st.selectbox(f"{col}", options[col])
 
 with col2:
     for col in categorical_cols[3:]:
-        user_input[col] = st.selectbox(f"{col}", options[col], index=0)
+        user_input[col] = st.selectbox(f"{col}", options[col])
 
 # Numeric inputs
 with col1:
@@ -94,20 +94,19 @@ user_input["order_prepare_time"] = np.random.uniform(5, 30)  # Estimate order pr
 # Convert user input to dataframe
 input_df = pd.DataFrame([user_input])
 
+# Apply label encoding to categorical variables
+for col in categorical_cols + ["month_intervals"]:
+    if col in label_encoders:
+        input_df[col] = input_df[col].map(lambda x: label_encoders[col].transform([x])[0] if x in label_encoders[col].classes_ else label_encoders[col].transform([label_encoders[col].classes_[0]])[0])
+
 # Ensure correct column order and fill missing columns
 for col in model_features:
     if col not in input_df.columns:
         input_df[col] = 0  # Assign default values for missing columns
 input_df = input_df[model_features]  # Reorder columns to match training set
 
-# Apply label encoding, handling unseen labels gracefully
-for col in categorical_cols + ["month_intervals"]:
-    if col in label_encoders:
-        if user_input[col] in label_encoders[col].classes_:
-            input_df[col] = label_encoders[col].transform([user_input[col]])[0]
-        else:
-            st.warning(f"Warning: '{user_input[col]}' is an unseen category for {col}. Assigning default value.")
-            input_df[col] = label_encoders[col].transform([label_encoders[col].classes_[0]])[0]  # Assign most frequent class
+# Convert all data to float to avoid string errors
+input_df = input_df.apply(pd.to_numeric, errors='coerce')
 
 # Make prediction
 if st.button("Estimate Delivery Time"):
