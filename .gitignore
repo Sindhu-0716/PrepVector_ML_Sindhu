@@ -1,3 +1,2 @@
 .venv/
 *.pkl
-UberETA/app/models/best_model.pkl
