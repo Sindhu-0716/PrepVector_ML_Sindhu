@@ -6,15 +6,16 @@ import os
 from sklearn.preprocessing import LabelEncoder
 from PIL import Image
 import datetime
+import joblib
 
 # Define paths for model and encoders
-model_path = "models/random_forest_model.pkl"
+model_path = "models/random_forest_model_compressed.pkl"
 encoder_path = "models/label_encoders.pkl"
 image_path = "delivery_driver.jpg"
 
 # Load the trained best model
 with open(model_path, "rb") as model_file:
-    model = pickle.load(model_file)
+    model = joblib.load(model_path)
 
 # Load the label encoders
 with open(encoder_path, "rb") as encoders_file:
