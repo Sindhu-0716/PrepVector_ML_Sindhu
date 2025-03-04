@@ -8,7 +8,7 @@ from PIL import Image
 import datetime
 
 # Define paths for model and encoders
-model_path = "models/best_model.pkl"
+model_path = "models/random_forest_model.pkl"
 encoder_path = "models/label_encoders.pkl"
 image_path = "delivery_driver.jpg"
 
