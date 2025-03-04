@@ -4,11 +4,11 @@ import plotly.graph_objects as go
 import os
 import requests
 
-# ✅ GitHub Raw URLs for Data
-GITHUB_CSV_URL = "https://raw.githubusercontent.com/Sindhu-0716/PrepVector_ML_Sindhu/main/EnergyPredictor/PJME_hourly.csv"
-GITHUB_FORECAST_URL = "https://raw.githubusercontent.com/Sindhu-0716/PrepVector_ML_Sindhu/main/EnergyPredictor/forecast.csv"
+# GitHub Raw URLs for Data
+GITHUB_CSV_URL = "https://raw.githubusercontent.com/Sindhu-0716/PrepVector_ML_Sindhu/main/EnergyPredictor/data/PJME_hourly.csv"
+GITHUB_FORECAST_URL = "https://raw.githubusercontent.com/Sindhu-0716/PrepVector_ML_Sindhu/main/EnergyPredictor/data/forecast.csv"
 
-# ✅ Local file paths
+# using feature engineered data and also final forecast outpu as static values on the app
 csv_file = "PJME_hourly.csv"
 forecast_file = "forecast.csv"
 
